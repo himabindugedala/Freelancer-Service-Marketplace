@@ -24,7 +24,11 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       return;
     }
 
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+    const socketUrl =
+      import.meta.env.VITE_SOCKET_URL ||
+      (typeof window !== 'undefined' && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')
+        ? window.location.origin
+        : 'http://localhost:5000');
     const newSocket = io(socketUrl, {
       auth: { token },
       query: { token },

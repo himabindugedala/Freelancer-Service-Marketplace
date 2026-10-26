@@ -1,0 +1,49 @@
+services:
+  # =================================================================
+  # BACKEND SERVICE: Node.js + Express + Socket.IO + MongoDB (Web Service)
+  # =================================================================
+  - type: web
+    name: freelance-marketplace-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        sync: false
+      - key: ADMIN_EMAIL
+        value: admin@marketplace.com
+      - key: ADMIN_PASSWORD
+        value: Admin123!Secure
+      - key: ADMIN_NAME
+        value: Platform Administrator
+
+  # =================================================================
+  # FRONTEND SERVICE: React + Vite + Tailwind (Static Site)
+  # =================================================================
+  - type: web
+    name: freelance-marketplace-frontend
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+      - key: VITE_SOCKET_URL
+        sync: false

@@ -3,7 +3,10 @@ export const uploadSingleFile = (req, res) => {
     return res.status(400).json({ success: false, message: 'No file was uploaded' });
   }
 
-  const fileUrl = `/uploads/${req.file.filename}`;
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+  const host = req.get('host');
+  const fileUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+
   res.status(200).json({
     success: true,
     message: 'File uploaded successfully',
@@ -22,8 +25,11 @@ export const uploadMultipleFiles = (req, res) => {
     return res.status(400).json({ success: false, message: 'No files were uploaded' });
   }
 
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+  const host = req.get('host');
+
   const uploaded = req.files.map((file) => ({
-    url: `/uploads/${file.filename}`,
+    url: `${protocol}://${host}/uploads/${file.filename}`,
     filename: file.filename,
     originalName: file.originalname,
     size: file.size,
