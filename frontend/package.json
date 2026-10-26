@@ -25,6 +25,10 @@
     "vite": "^6.0.7",
     "zod": "^3.24.1"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.65.0",
+    "@rollup/rollup-linux-x64-musl": "^4.65.0"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
