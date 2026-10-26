@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
 import { ENV } from './env.js';
+
+// Configure public DNS resolvers to prevent Windows SRV lookup failures (querySrv ECONNREFUSED)
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Use system default if setServers is unavailable
+}
 
 let mongodInstance = null;
 
